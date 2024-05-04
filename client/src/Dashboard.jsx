@@ -5,6 +5,7 @@ import SearchIcon from '@material-ui/icons/Search';
 const Dashboard = () => {
   const [cities, setCities] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     // Fetch city data from the backend when the component mounts
@@ -23,6 +24,10 @@ const Dashboard = () => {
     return 'translate(-50%, -50%) scale(2.5)';
   };
 
+  const filteredCities = cities.filter(city => 
+    city.city.toLowerCase().startsWith(searchTerm.toLowerCase())
+  );
+
   return (
     <div style={{ width: '100%', height: '100%', background: '#f0f2f5', overflow: 'auto' }}>
       <Container style={{ padding: '20px', maxWidth: '960px', margin: 'auto', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -38,9 +43,11 @@ const Dashboard = () => {
               </InputAdornment>
             ),
           }}
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
         />
         <Grid container spacing={3} style={{ overflow: 'hidden' }}>
-          {cities.map((city, index) => (
+          {filteredCities.map((city, index) => (
             <Grid item xs={12} sm={4} key={index}>
               <Card
                 onClick={() => handleCardClick(index)}
