@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, TextField, Grid, Typography, Container, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';  
 
 const Dashboard = () => {
+  const [cities, setCities] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    // Fetch city data from the backend when the component mounts
+    fetch('http://localhost:8000/city/cities/')
+      .then(response => response.json())
+      .then(data => setCities(data.cities))
+      .catch(error => console.error('Error fetching cities:', error));
+  }, []);
 
   const handleCardClick = (index) => {
     setSelectedCard(selectedCard === index ? null : index);
@@ -14,8 +24,12 @@ const Dashboard = () => {
     return 'translate(-50%, -50%) scale(2.5)';
   };
 
+  const filteredCities = cities.filter(city => 
+    city.city.toLowerCase().startsWith(searchTerm.toLowerCase())
+  );
+
   return (
-    <div style={{ position: 'fixed', width: '100%', height: '100%', top: 0, left: 0, background: '#f0f2f5' }}>
+    <div style={{ width: '100%', height: '100%', background: '#f0f2f5', overflow: 'auto' }}>
       <Container style={{ padding: '20px', maxWidth: '960px', margin: 'auto', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <TextField
           fullWidth
@@ -29,9 +43,11 @@ const Dashboard = () => {
               </InputAdornment>
             ),
           }}
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
         />
         <Grid container spacing={3} style={{ overflow: 'hidden' }}>
-          {[1, 2, 3].map((index) => (
+          {filteredCities.map((city, index) => (
             <Grid item xs={12} sm={4} key={index}>
               <Card
                 onClick={() => handleCardClick(index)}
@@ -49,11 +65,11 @@ const Dashboard = () => {
                 }}
               >
                 <CardContent style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}>
-                  <Typography variant="h5" style={{ marginBottom: '10px' }}>City Name</Typography>
+                  <Typography variant="h5" style={{ marginBottom: '10px' }}>{city.city} ({city.country})</Typography>
                   <div style={{ flexGrow: 1, background: 'url(logo.svg)', backgroundSize: 'cover', marginBottom: '20px' }}>
                     {/* Image container */}
                   </div>
-                  <Typography variant="h6">$2000/month</Typography>
+                  <Typography variant="h6">${city.mealinexpensive}/meal - ${city.water}/bottle</Typography>
                 </CardContent>
               </Card>
             </Grid>

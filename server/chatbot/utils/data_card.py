@@ -1,0 +1,16 @@
+data_card = {
+    "city": "City",
+    "country": "Country",
+    "x1": "Meal, Inexpensive Restaurant (USD)",
+    "x4": "Beer (USD)",
+    "x6": "Cappuccino (USD)",
+    "x7": "Coke/Pepsi (USD)",
+    "x8": "Water (USD)",
+    "x12": "Eggs (USD)",
+    "x14": "Chicken Fillets (1kg) (USD)",
+    "x15": "Beef Round (1kg) (USD)",
+    "x29": "Monthly Pass (USD)",
+    "x36": "Utilities (USD)",
+    "x48": "Apartment (1 bedroom) in City Centre (USD)",
+    "x54": "Average Monthly Net Salary (After Tax) (USD)",
+}
