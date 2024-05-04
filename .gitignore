@@ -1,0 +1,5 @@
+.DS_Store
+chatbot/__pycache__/
+.idea/hackUPC.iml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/misc.xml
