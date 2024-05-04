@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, TextField, Grid, Typography, Container, InputAdornment } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';  
+import { Card, CardContent, TextField, Grid, Typography, Container, InputAdornment, CardMedia } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 const Dashboard = () => {
   const [cities, setCities] = useState([]);
@@ -28,6 +28,14 @@ const Dashboard = () => {
     city.city.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
+  function importAll(r) {
+    let images = {};
+    r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
+    return images;
+  }
+
+  const images = importAll(require.context('./assets/pictures', false, /\.(png|jpe?g|svg)$/));
+
   return (
     <div style={{ width: '100%', height: '100%', background: '#f0f2f5', overflow: 'auto' }}>
       <Container style={{ padding: '20px', maxWidth: '960px', margin: 'auto', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -46,10 +54,11 @@ const Dashboard = () => {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
         />
-        <Grid container spacing={3} style={{ overflow: 'hidden' }}>
+        <Grid container spacing={3} style={{ overflow: 'auto' }}>
           {filteredCities.map((city, index) => (
-            <Grid item xs={12} sm={4} key={index}>
+            <Grid item xs={6} sm={4} key={index}>
               <Card
+                sx={{height: '100%'}}
                 onClick={() => handleCardClick(index)}
                 style={{
                   cursor: 'pointer',
@@ -61,15 +70,18 @@ const Dashboard = () => {
                   zIndex: selectedCard === index ? 3 : 1,
                   overflow: 'visible', 
                   borderRadius: '10px',
-                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
                 }}
               >
                 <CardContent style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}>
-                  <Typography variant="h5" style={{ marginBottom: '10px' }}>{city.city} ({city.country})</Typography>
-                  <div style={{ flexGrow: 1, background: 'url(logo.svg)', backgroundSize: 'cover', marginBottom: '20px' }}>
-                    {/* Image container */}
+                  <div style={{display: 'flex', alignItems: 'center', gap: '0.5em'}}>
+                    <Typography variant="h5">{city.city}</Typography>
+                    <Typography variant="subtitle2">({city.country})</Typography>
                   </div>
-                  <Typography variant="h6">${city.mealinexpensive}/meal - ${city.water}/bottle</Typography>
+                  <div style={{ flexGrow: 1, background: 'url(logo.svg)', backgroundSize: 'cover', marginBottom: '20px' }}>
+                    <CardMedia component="img" height="100px" src={images[`${city.city}.jpeg`]} />
+                  </div>
+                  <Typography variant="h6">${city.avgmonthlynetsalary}/month</Typography>
                 </CardContent>
               </Card>
             </Grid>
