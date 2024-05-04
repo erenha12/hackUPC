@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // TODO
 // first message not showing up done
@@ -54,7 +56,7 @@ function Chat() {
       <Box sx={{
         position: 'fixed',
         top: 0,
-        bottom: '7em',
+        bottom: '13em',
         left: 0,
         right: 0,
         overflowY: 'auto',
@@ -81,16 +83,20 @@ function Chat() {
         bottom: 0,
         left: 0,
         right: 0,
-        padding: '1em',
+        padding: '2em',
         backgroundColor: '#ffff',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}>
         <form onSubmit={sendMessage}>
-          <TextField value={input} onChange={e => setInput(e.target.value)} fullWidth />
-          <Button type="submit" color="primary">Send</Button>
-          <Button onClick={clearChat} color="secondary">Clear Chat</Button> {}
+          <div style={{width: '70vw', margin: '1em 0'}}>
+            <TextField sx={{height: '100%'}} disabled={loading} value={input} onChange={e => setInput(e.target.value)} fullWidth />
+          </div>
+          <div style={{display: 'flex', flexDirection: 'row-reverse', gap: '1em'}}>
+            <LoadingButton size="large" type="submit" color="primary" variant="contained" loading={loading} endIcon={<SendIcon />} loadingPosition="end"><span>Send</span></LoadingButton>
+            <Button size="large" onClick={clearChat} color="secondary" variant="outlined">Clear Chat</Button>
+          </div>
         </form>
       </Box>
     </div>
