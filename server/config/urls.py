@@ -4,6 +4,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("city/", include("secondcity.urls"))
-    
+    path("city/", include("secondcity.urls")),
+    path("chat/", include("chatbot.urls"))
 ]

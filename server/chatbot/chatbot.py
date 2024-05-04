@@ -1,9 +1,9 @@
 import cohere
 import csv
-from data import countries_dict, cities_dict
-from data_card import data_card
+from .utils.data import countries_dict, cities_dict
+from .utils.data_card import data_card
 
-co = cohere.Client('')
+co = cohere.Client('kmTEu2kIBQs4EAF45pncLy2CTICQMuhM7rN8ES7t')
 
 def csv_to_json(csv_file_path):
     json_data = []
@@ -14,8 +14,8 @@ def csv_to_json(csv_file_path):
     return json_data
 
 def filter_data():
-    input_file = "cost-of-living_v2.csv"
-    output_file = "european_cost_of_living.csv"
+    input_file = "chatbot/utils/cost-of-living_v2.csv"
+    output_file = "chatbot/utils/european_cost_of_living.csv"
 
     # Read data from input CSV file and filter
     filtered_data = []
@@ -42,18 +42,16 @@ def filter_data():
         for row in filtered_data:
             writer.writerow(row)
 
-filter_data()
+# filter_data()
 
-file_name = "european_cost_of_living.csv"
+file_name = "chatbot/utils/european_cost_of_living.csv"
 json_data = csv_to_json(file_name)
 
-def get_chat(query, data):
+def get_chat(query):
     response = co.chat(
         model="command",
         message=query,
-        documents=data,
+        documents=json_data,
         preamble="You are a friendly relocation assistant helping users pick a new city to live in Europe. Give specific answers to the questions."
     )
-    print(response.text)
-
-get_chat('I have a food budget of 500 euros which city should I choose?', json_data)
+    return response.text
