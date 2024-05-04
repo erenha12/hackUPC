@@ -3,12 +3,14 @@ import { Box, Typography, TextField, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-// TODO
-// first message not showing up done
-// message order done
-// loading state
-// formatting the incoming message
-// UI polish
+function renderWithLineBreaks(inputString) {
+  return inputString.split('\n').map((line, index) => (
+    <span key={index}>
+      {line}
+      <br />
+    </span>
+  ));
+}
 
 function Chat() {
   const [messages, setMessages] = useState([]);
@@ -52,7 +54,7 @@ function Chat() {
   };
 
   return (
-    <div style={{ position: 'fixed', width: '100%', height: '100%', top: 0, left: 0, background: '#f0f2f5' }}>
+    <div style={{ position: 'fixed', width: '100%', height: '100%', top: 0, left: 0, background: '#F2F2F2' }}>
       <Box sx={{
         position: 'fixed',
         top: 0,
@@ -68,13 +70,13 @@ function Chat() {
         {messages.map((message, index) => (
           <Typography key={index} sx={{
             alignSelf: message.sender === 'user' ? 'flex-end' : 'flex-start',
-            backgroundColor: message.sender === 'user' ? '#AEDFF7' : '#D3D3D3',
+            backgroundColor: message.sender === 'user' ? '#AEDFF7' : '#ECD3ECFF',
             padding: '0.5em',
             borderRadius: '10px',
             margin: '0.5em',
             maxWidth: '45%'
           }}>
-            {message.text}
+            {renderWithLineBreaks(message.text)}
           </Typography>
         ))}
       </Box>
