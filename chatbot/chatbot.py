@@ -3,7 +3,7 @@ import csv
 from data import countries_dict, cities_dict
 from data_card import data_card
 
-co = cohere.Client('kmTEu2kIBQs4EAF45pncLy2CTICQMuhM7rN8ES7t')
+co = cohere.Client('')
 
 def csv_to_json(csv_file_path):
     json_data = []
