@@ -58,5 +58,5 @@ media/
 *~
 .DS_Store
 
-chatbot/__pycache__/
+server/chatbot/utils/__pycache__/
 
