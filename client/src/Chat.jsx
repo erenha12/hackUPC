@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
 
 // TODO
-// first message not showing up
-// message order
+// first message not showing up done
+// message order done
 // loading state
 // formatting the incoming message
 // UI polish
@@ -12,7 +12,6 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  // const bottomRef = useRef(null); // Reference to help with autoscroll
 
   const sendMessage = async (event) => {
     event.preventDefault();
@@ -50,10 +49,6 @@ function Chat() {
     }
   };
 
-  // useEffect(() => {
-  //   bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  // }, [messages]);
-
   return (
     <div style={{ position: 'fixed', width: '100%', height: '100%', top: 0, left: 0, background: '#f0f2f5' }}>
       <Box sx={{
@@ -65,7 +60,8 @@ function Chat() {
         overflowY: 'auto',
         padding: '2em',
         display: 'flex',
-        flexDirection: 'column-reverse',
+        justifyContent: 'flex-end',
+        flexDirection: 'column',
       }}>
         {messages.map((message, index) => (
           <Typography key={index} sx={{
@@ -79,7 +75,6 @@ function Chat() {
             {message.text}
           </Typography>
         ))}
-        {/*<div ref={bottomRef} />*/}
       </Box>
       <Box sx={{
         position: 'fixed',
